@@ -11,12 +11,12 @@ from twilio.rest import Client
 
 
 
-account_sid1 = 'AC92c03662699120db7a0095486ab77ea1'
-auth_token1 = '6a1c32fc32273eb3be1b121309c7180c'
-twilio_phone_number1 = '+12182284159'
+account_sid1 = ''
+auth_token1 = ''
+twilio_phone_number1 = ''
 
-account_sid2 = 'AC6613bc08f870ada272200bf554424d82'
-auth_token2 = '89a1b9441033175e0c20a8e316e6f040'
+account_sid2 = ''
+auth_token2 = ''
 twilio_phone_number2 = '+13194354821'
 # Tạo client Twilio
 client1 = Client(account_sid1, auth_token1)
