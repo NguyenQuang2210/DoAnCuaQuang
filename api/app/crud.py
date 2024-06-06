@@ -12,8 +12,8 @@ from twilio.rest import Client
 
 
 # Tạo client Twilio
-client1 = Client(account_sid1, auth_token1)
-client2 = Client(account_sid2, auth_token2)
+# client1 = Client(account_sid1, auth_token1)
+# client2 = Client(account_sid2, auth_token2)
 # 1. Rating
 
 def check_rating(db: Session):
