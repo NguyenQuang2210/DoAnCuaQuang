@@ -11,13 +11,6 @@ from twilio.rest import Client
 
 
 
-account_sid1 = ''
-auth_token1 = ''
-twilio_phone_number1 = ''
-
-account_sid2 = ''
-auth_token2 = ''
-twilio_phone_number2 = '+13194354821'
 # Tạo client Twilio
 client1 = Client(account_sid1, auth_token1)
 client2 = Client(account_sid2, auth_token2)
