@@ -1,0 +1,52 @@
+<h1 mat-dialog-title>{{inputdata.Title}}</h1>
+<div class="container px-5 my-5">
+    <form id="contactForm" data-sb-form-api-token="API_TOKEN" [formGroup] = "myform" (ngSubmit)="data.status===1?updateBuses():saveBuses()">
+        <div class="mb-3">
+            <label class="form-label" for="giởKhởiHanh">Giở khởi hành</label>
+            <input class="form-control" id="giởKhởiHanh" type="datetime-local" placeholder="Giở khởi hành" data-sb-validations="required" formControlName="time_start"/>
+            <div class="invalid-feedback" data-sb-feedback="giởKhởiHanh:required">Giở khởi hành is required.</div>     
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="gia">Giá</label>
+            <input class="form-control" id="gia" type="text" placeholder="Giá" data-sb-validations="required" formControlName="price"/>
+            <div class="invalid-feedback" data-sb-feedback="gia:required">Giá is required.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="xe">Xe</label>
+            <select class="form-select form-control" id="xe" aria-label="Xe" formControlName="id_vehicle">
+                <option *ngFor="let item of vehicleList" [value]="item.id">{{item.licensePlate}}</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="chuyến">Chuyến</label>
+            <select class="form-select form-control" id="chuyến" aria-label="Chuyến" formControlName="id_tour">
+                <option  value="1">Thanh Hóa - Lào Cai</option>
+                <option  value="2">Thanh Hóa - Sa Pa</option>
+                <option  value="3">Lào Cai - Thanh  Hóa</option>
+                <option  value="4">Sa Pa - Thanh Hóa</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="laiXe">Lái xe</label>
+            <select class="form-select form-control" id="laiXe" aria-label="Lái xe" formControlName="id_driver">
+                <option *ngFor="let item of driverList" [value]="item.id">{{item.name}}</option>
+               
+            </select>
+        </div>
+        <div class="d-none" id="submitSuccessMessage">
+            <div class="text-center mb-3">
+                <div class="fw-bolder">Form submission successful!</div>
+                <p>To activate this form, sign up at</p>
+                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+            </div>
+        </div>
+        <div class="d-none" id="submitErrorMessage">
+            <div class="text-center text-danger mb-3">Error sending message!</div>
+        </div>
+        <div mat-dialog-actions>
+            <button *ngIf="data.status === 0" id="addButton" idmat-raised-button color="primary" class="btn btn-primary">Thêm</button>
+            <button *ngIf="data.status === 1" id="editButton" mat-raised-button color="primary">Lưu</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>

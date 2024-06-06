@@ -1,0 +1,49 @@
+<h1 mat-dialog-title>{{inputdata.Title}}</h1>
+<div class="container px-5 my-5">
+    <form id="contactForm" data-sb-form-api-token="API_TOKEN" [formGroup] = "myform" (ngSubmit)="updateTicket()">
+        <div class="form-floating mb-3">
+            <label for="ten">Tên</label>
+            <input class="form-control" id="ten" type="text" placeholder="Tên" data-sb-validations="required" formControlName="name"/>
+            
+            <div class="invalid-feedback" data-sb-feedback="ten:required">Tên is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <label for="sốDiệnThoại">Số điện thoại</label>
+            <input class="form-control" id="sốDiệnThoại" type="text" placeholder="Số điện thoại" data-sb-validations="required" formControlName="phone_number"/>
+           
+            <div class="invalid-feedback" data-sb-feedback="sốDiệnThoại:required">Số điện thoại is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <label for="diểmDon">Điểm đón</label>
+            <input class="form-control" id="diểmDon" type="text" placeholder="Điểm đón" data-sb-validations="required"  formControlName="pick_up_loc"/>
+           
+            <div class="invalid-feedback" data-sb-feedback="diểmDon:required">Điểm đón is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <label for="diểmTrả">Điểm trả</label>
+            <input class="form-control" id="diểmTrả" type="text" placeholder="Điểm trả" data-sb-validations="required" formControlName="drop_down_loc"/>
+          
+            <div class="invalid-feedback" data-sb-feedback="diểmTrả:required">Điểm trả is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <label for="ghiChu">Ghi chú</label>
+            <textarea class="form-control" id="ghiChu" type="text" placeholder="Ghi chú" style="height: 10rem;" data-sb-validations="required" formControlName="note"></textarea>            
+            <div class="invalid-feedback" data-sb-feedback="ghiChu:required">Ghi chú is required.</div>
+        </div>
+        <div mat-dialog-actions>
+            <button id="editButton" mat-raised-button color="primary">Lưu</button>
+        </div>
+        <div class="d-none" id="submitSuccessMessage">
+            <div class="text-center mb-3">
+                <div class="fw-bolder">Form submission successful!</div>
+                <p>To activate this form, sign up at</p>
+                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+            </div>
+        </div>
+        <div class="d-none" id="submitErrorMessage">
+            <div class="text-center text-danger mb-3">Error sending message!</div>
+        </div>
+
+    </form>
+</div>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>

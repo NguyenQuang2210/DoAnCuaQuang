@@ -1,0 +1,192 @@
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <app-left></app-left>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <app-header></app-header>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Danh sách vé xe</h1>
+
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <div>
+                                <h3 class="m-0 font-weight-bold text-primary">Danh sách vé xe</h3>
+                                <button class="btn btn-primary" (click)="exportExcel()">Excel</button>
+                                <button class="btn btn-{{isbill?'success':'secondary'}} ml-3"  (click)="selectbill()" >Xuất hóa đơn</button>
+                                <button class="btn btn-{{ispay?'success':'secondary'}} ml-3" (click)="selectpay()" >Thanh toán</button>
+                                <button class="btn btn-success ml-3" *ngIf="isbill||ispay">{{isbill?'Thảo đơn':'Thanh toán'}}</button>
+                            </div>
+                            
+                            <form action="" class="needs-validation" novalidate method="post"
+                                (ngSubmit)="searchTicket()" [formGroup]="searchform">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <input class="form-control" id="gioKhoiHanh" type="text"
+                                            placeholder="Số điện thoại" data-sb-validations="required"
+                                            formControlName="phone" />
+                                        <div class="invalid-feedback" data-sb-feedback="gioKhoiHanh:required">Mời nhập
+                                            số điện thoại</div>
+                                    </div>
+                                    <div class="col text-right">
+                                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="ticketlist" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Số thứ tự</th>
+                                            <th>Tên</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Điểm đón</th>
+                                            <th>Điểm trả</th>
+                                            <th>Ngày đặt</th>
+                                            <th>Số ghế</th>
+                                            <th>Ghi chú</th>
+                                            <th>Trạng thái</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tfoot *ngIf="showdownload === true">
+                                        <tr>
+                                            <th>Số thứ tự</th>
+                                            <th>Tên</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Điểm đón</th>
+                                            <th>Điểm trả</th>
+                                            <th>Ngày đặt</th>
+                                            <th>Số ghế</th>
+                                            <th>Ghi chú</th>
+                                            <th>Trạng thái</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr *ngFor="let data of ticketList;let i=index">
+                                            <td scope="row">
+                                                <ng-container *ngIf="!(isbill||ispay);else select1">
+                                                    {{i+1}}           
+                                                </ng-container>
+                                                <ng-template #select1>
+                                                    <div>
+                                                        <input [disabled]="(isbill&&data.status===2)||(ispay&&data.status===3)" type="checkbox" class="form-control-sm" (click)="addlist(data.id)">
+                                                    </div>
+                                                </ng-template>
+                                            </td>
+                                            <td>{{data.name}}</td>
+                                            <td>{{convertPhoneNumberBack(data.phoneNumber)}}</td>
+                                            <td>{{data.pickUpLoc}}</td>
+                                            <td>{{data.dropDownLoc}}</td>
+                                            <td>{{data.dateBook|date: 'dd/MM/yyyy'}}</td>
+                                            <td>{{data.seats}}</td>
+                                            <td>{{data.note}}</td>
+                                            <td>{{getStatus(data.status)}}</td>
+                                            <td>
+                                              
+                                                <div class="dropdown" *ngIf="showdownload === true">
+                                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                                        id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        Action
+                                                    </a>
+
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                      
+                                                    
+                                                        <div *ngIf="data.status === 2">
+                                                            <li><button class="dropdown-item" href="#" style="color: blue;" (click)="receive_payment(data.id)"><i class="fa fa-trophy" aria-hidden="true" ></i>Thanh toán</button></li>
+                                                            <li><button class="dropdown-item" href="#" style="color: gray;" (click)="editTicket(data.id)"><i class="fa fa-cog" aria-hidden="true" ></i> Sửa</button></li>
+                                                            <li><button class="dropdown-item" href="#" style="color: red;"  (click)="deleteTicket(data.id)"><i class="fa fa-times" aria-hidden="true"></i> Xóa</button></li>
+                                                        </div>
+                                                        <div *ngIf="data.status === 3">
+                                                            <li><button class="dropdown-item" href="#" (click)="captureTicket(data)"><i class="fa fa-print" aria-hidden="true"></i> Xuất hóa đơn</button></li>
+                                                            <li><button class="dropdown-item" href="#" style="color: gray;"  (click)="editTicket(data.id)"><i class="fa fa-cog" aria-hidden="true"></i> Sửa</button></li>
+                                                            <li><button class="dropdown-item" href="#" style="color: red;" (click)="deleteTicket(data.id)"><i class="fa fa-times" aria-hidden="true"></i>Xóa</button></li>
+                                                        </div>
+                                                       
+                                                    </ul>
+                                                    
+                                                </div>
+                                          
+
+                                        </tr>
+
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <app-footer></app-footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script></script>
+</body>

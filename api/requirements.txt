@@ -1,0 +1,11 @@
+fastapi
+mysql
+mysql-connector-python
+pydantic
+requests
+SQLAlchemy
+jwt
+uvicorn
+faker
+PyJWT
+python-multipart

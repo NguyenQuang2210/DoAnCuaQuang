@@ -1,0 +1,90 @@
+
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;" *ngIf="loader">
+    <div class="spinner-border text-danger" role="status" >
+        <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+<div style="background-color: gray; display: flex; justify-content: center; align-items: center; height: 100vh;" *ngIf="!loader">
+    <div class="card p-4" style="height: 620px;width: 800px;">
+        <div style="height: 8%;display: flex; align-items:center;" class="justify-content-between">
+            <img src="https://pay.vnpay.vn/Images/brands/logo.svg" alt="" style="">
+            <div class=" align-items-center d-flex">
+                <span class="pl-2">Giao dịch sẽ hết hạn sau</span>
+                <div class="countdown" id="countdown"></div>
+            </div>
+        </div>
+        <hr>
+        <div class="card-body">
+            <div class="container">
+                <div class="border"
+                    style="height: 30px;color: coral;background-color: bisque; display: flex; align-items: center; justify-content: center; border: 2px solid coral;">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    <span style="margin-left: 5px;">Vui lòng không tải lại trang web trong quá trình thanh toán. Xin cảm
+                        ơn!</span>
+                </div>
+                <div class=" row pt-3">
+                    <div class="col-5 p-0 ">
+                        <div class="card " style="background-color: rgb(245, 247, 249);width: 250px;height: 350px; ">
+                            <div class="card-body">
+                                <h4 class="" style="color: black;">Thông tin giao dịch</h4>
+                                <hr>
+                                <div>
+                                    <h6 class="mb-0 fw-normal">Số tiền thanh toán</h6>
+                                    <h5 style="color:rgb(0, 113, 169)">{{formatCurrency(totalprice)}} VND</h5>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-normal">Phí giao dịch</h6>
+                                    <h5 style="color:black">{{formatCurrency(totalprice*0.015)}} VND</h5>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-normal">Tổng thanh toán</h6>
+                                    <h5 style="color:black">{{formatCurrency(totalprice*1.015)}} VND</h5>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-normal">Nhà cung cấp</h6>
+                                    <h5 style="color:black">CÔNG TY TNHH DU LỊCH VÀ VẬN TẢI QUANG DŨNG</h5>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7 align-items-start d-flex flex-column">
+                        <h4 class="text-center p-2 mb-0" style="color:black;">Quét mã qua ứng dụng ngân hàng/Ví điện tử</h4>
+                        <a href="" class="text-center mt-2 d-block" style="margin-left: auto; margin-right: auto; text-decoration: none; color:rgb(0, 113, 169)"><i class="fa fa-info-circle" aria-hidden="true"></i>Hướng dẫn sử dụng</a>
+
+                        <img class="d-block mx-auto" src="https://i.imgur.com/O7K897m.png" alt="" width="200" height="220">
+                        <div class="text-center mt-2 d-block mx-auto">
+                            <button type="button" class="btn btn-danger mr-2" (click)="OpenDialogCancel()">Hủy thanh toán</button>
+                            <button type="button" class="btn btn-primary"  (click)="button_access()" >Xác nhận</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <div class="card align-items-center justify-content-center" style="width: 30px; height: 30px; color:rgb(0, 113, 169)"><i class="fa fa-phone" aria-hidden="true"></i></div>
+                        <a href="" class="ml-2 pr-2" style="text-decoration: underline; color:rgb(0, 113, 169)">1900.55.77</a>
+                        <div class="card align-items-center justify-content-center" style="width: 30px; height: 30px; color:rgb(0, 113, 169)"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+                        <a href="" class="ml-2" style="text-decoration: underline; color:rgb(0, 113, 169)">hotrovnpay&#64;vnpay.vn</a>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .countdown {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-left: 10px;
+        color: gray;
+        border-radius: 5px;
+
+    }
+</style>

@@ -1,0 +1,370 @@
+
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;" *ngIf="loader">
+    <div class="spinner-border text-danger" role="status" >
+        <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+<div class="container ie-h-align-center-fix " style="padding-top: 150px;" *ngIf="!loader">
+    <div class="row">
+        <div class="col-12">
+
+            <div class="row">
+                <div class="col-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h6 class="card-title">Vé của bạn</h6>
+                            <div class="row d-flex justify-items-between">
+                                <h6 class="card-subtitle mb-2 text-body-secondary col ">Chiều đi</h6>
+                                <h6 class="card-subtitle mb-2 text-body-secondary col text-end fw-normal">{{timestart|date:'dd/MM/yyyy'}}
+                                </h6>
+                            </div>
+                            <div class="row">
+                                <h5 class="card-title">Thanh Hóa - Lào Cai</h5>
+                            </div>
+                            <div class="row">
+                                <h6 class="card-subtitle mb-2 text-body-secondary col ">Khởi hành</h6>
+                                <h6 class="card-subtitle mb-2 text-body-secondary col text-end fw-normal">{{gettimexuatphat(timestart)|date:'HH:mm'}}</h6>
+                            </div>
+                            <div class="row">
+                                <h6 class="card-subtitle mb-2 text-body-secondary col  ">Biển số xe</h6>
+                                <h6 class="card-subtitle mb-2 text-body-secondary col text-end fw-normal">{{lisencePlate}}
+                                </h6>
+                            </div>
+                            <div class="row">
+                                <h6 class="card-subtitle mb-2 text-body-secondary col ">Số ghế/giường</h6>
+                                <h6 class="card-subtitle mb-2 text-body-secondary col text-end fw-normal">
+                                    <ng-container *ngFor="let item of selectedlist; let last = last">
+                                        {{ getNameSeat(item.id_seat) }}{{ !last ? ', ' : '' }}
+                                    </ng-container>
+                                </h6>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6 class="card-subtitle mb-2 text-body-secondary col fw-bold pl-0">Giá vé</h6>
+                                </div>
+                                <div   class="col-6 text-end" >
+                                    <div *ngFor="let item of selectedlist">
+                                        <h6 class="card-subtitle mb-2 text-body-secondary fw-normal"> {{ getNameSeat(item.id_seat) }}: <strong>380.000
+                                            đ</strong>
+                                    </h6>
+                                    </div>
+                                 
+                                </div>
+
+                            </div>
+                            <hr class="my-1">
+                        </div>
+                    </div>
+
+                    <div class="card mt-3" style="width: 18rem;">
+                        <div class="card-body">
+                            <h6 class="card-title">Tổng thanh toán</h6>
+                            <div class="row d-flex justify-items-between">
+                                <h6 class="card-subtitle mb-2 text-body-secondary col ">Giá vé</h6>
+                                <h6 class="card-subtitle mb-2 text-body-secondary col text-end fw-normal">{{(this.selectedlist.length*380000)|number}}đ</h6>
+                            </div>
+                            <hr>
+                            <div class="row d-flex justify-items-between ">
+                                <h6 class="card-subtitle mb-2 text-body-secondary col fw-bold">Tổng tiền</h6>
+                                <h6 class="card-subtitle mb-2 text-body-secondary col text-end fw-bold">{{(this.selectedlist.length*380000)|number}}đ</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-9">
+                    <div id="container" class=" mt-5 ie-h-align-center-fix">
+                        <div class="px-5">
+                            <div class="progress px-1" style="height: 3px;">
+                                <div class="progress-bar" style="background-color: #ee5057;" role="progressbar"
+                                    [style.width]="getCurrentPage().width" aria-valuenow="0" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                            <div class="step-container d-flex justify-content-between" style="">
+                                <div class="step-circle position-relative fw-normal" 
+                                    [ngStyle]="{'background-color': currentStep >= 1 ? '#ee5057' : 'white'}">
+                                    1
+                                    <div class="position-absolute top-100 start-50 translate-middle mt-4 fw-normal"
+                                        style="width: 150px;">Thông tin
+                                        đặt vé</div>
+                                </div>
+                                <div class="step-circle position-relative fw-normal" 
+                                    [ngStyle]="{'background-color': currentStep >= 2 ? '#ee5057' : 'white'}">
+                                    2
+                                    <div class="position-absolute top-100 start-50 translate-middle mt-4 fw-normal"
+                                        style="width: 150px;">Thanh
+                                        toán </div>
+                                </div>
+                                <div class="step-circle position-relative fw-normal" 
+                                    [ngStyle]="{'background-color': currentStep === 3 ? '#ee5057' : 'white'}">
+                                    3
+                                    <div class="position-absolute top-100 start-50 translate-middle mt-4 fw-normal"
+                                        style="width: 150px;">Hoàn
+                                        tất </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <form id="multi-step-form" class="mb-4 mt-3">
+                            <div class="step step-1" [style.display]="currentStep === 1 ? 'block' : 'none'">
+                                <!-- Step 1 form fields here -->
+                                <div class="card">
+                                    <div class="card-header fw-bolder">
+                                        Thông tin liên hệ
+                                    </div>
+                                    <form id="contactForm" class="p-3" data-sb-form-api-token="API_TOKEN" [formGroup]="myform">
+                                        <div class="row">
+
+                                            <div class="col mb-3">
+                                                <label class="form-label" for="họTen">Họ tên *</label>
+                                                <input class="form-control" id="họTen" type="text"
+                                                    placeholder="Họ tên *" data-sb-validations="required" formControlName="name"/>
+
+                                                <div class="invalid-feedback" data-sb-feedback="họTen:required">Họ tên *
+                                                    is required.</div>
+                                            </div>
+                                            <div class="col">
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="sốDiệnThoại">Số điện thoại *</label>
+                                                    <input class="form-control" id="sốDiệnThoại" type="text"
+                                                        placeholder="Số điện thoại *" data-sb-validations="required" formControlName="phone_number"/>
+                                                    <div class="invalid-feedback"
+                                                        data-sb-feedback="sốDiệnThoại:required">Số điện thoại * is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="ghiChu">Ghi chú</label>
+                                                    <input class="form-control" id="ghiChu" type="text"
+                                                        placeholder="Ghi chú" data-sb-validations="required" formControlName="note"/>
+                                                    <div class="invalid-feedback" data-sb-feedback="ghiChu:required">Ghi
+                                                        chú is required.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="diểmDon">Điểm đón</label>
+                                                    <input class="form-control" id="diểmDon" type="text"
+                                                        placeholder="Điểm đón" data-sb-validations="required" formControlName="pick_up_loc"/>
+                                                    <div class="invalid-feedback" data-sb-feedback="diểmDon:required">
+                                                        Điểm đón is required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="diểmTrả">Điểm trả</label>
+                                                    <input class="form-control" id="diểmTrả" type="text"
+                                                        placeholder="Điểm trả" data-sb-validations="required" formControlName="drop_down_loc"/>
+                                                    <div class="invalid-feedback" data-sb-feedback="diểmTrả:required">
+                                                        Điểm trả is required.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="d-none" id="submitSuccessMessage">
+                                            <div class="text-center mb-3">
+                                                <div class="fw-bolder">Form submission successful!</div>
+                                                <p>To activate this form, sign up at</p>
+                                                <a
+                                                    href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                            </div>
+                                        </div>
+                                        <div class="d-none" id="submitErrorMessage">
+                                            <div class="text-center text-danger mb-3">Error sending message!</div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="text-end pb-3 pt-3">
+                                    <button type="button" class="btn btn-danger px-5 "
+                                        style="background-color: #ee5057;" (click)="nextpage()">Tiếp tục
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                                <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+                            </div>
+
+                            <div class="step step-2" [style.display]="currentStep === 2 ? 'block' : 'none'">
+                                <!-- Step 2 form fields here -->
+                                <div class="pt-3">
+                                    <div class="row">
+                                        <h5>Chọn hình thức thanh toán</h5>
+                                        <hr>
+                                    </div>
+                                    <div class="">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row h-100">
+                                                    <div class="col-1">
+                                                        <div class="d-flex justify-content-start align-items-center"
+                                                            style="height: 50px;">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="radioNoLabel" id="radioNoLabel1" value=""
+                                                                    aria-label="..." (change)="showQR($event)">
+                                                            </div>
+                                                            <div>
+                                                                <i class="fa fa-qrcode" aria-hidden="true"
+                                                                    style="color: gray;font-size: 24px;"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="row">
+                                                            <h6 class="fw-bolder">Thanh toán quét mã QR</h6>
+                                                            <h6 style="color: gray;" class="fw-normal">Không cần nhập
+                                                                thông tin. Xác nhận thanh toán tức thì, nhanh chóng và
+                                                                ít sai sót.</h6>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="card mt-3" style="width: 900px;height: 80px;"
+                                            [ngClass]="{'expanded': isInternetBanking}">
+                                            <div class="card-body">
+                                                <div class="row h-100">
+                                                    <div class="col-1">
+                                                        <div class="d-flex justify-content-start align-items-center"
+                                                            style="height: 50px;">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="radioNoLabel" id="radioNoLabel1" value=""
+                                                                    aria-label="..." (change)="showIB($event)">
+                                                            </div>
+                                                            <div>
+                                                                <i class="fa fa-credit-card" aria-hidden="true"
+                                                                    style="color: gray;font-size: 24px;"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="d-flex flex-column">
+                                                            <div class="d-flex ">
+                                                                <h6 class="fw-bolder text-start"
+                                                                    style="margin-top: 11px;">
+                                                                    Thẻ ATM nội địa/Internet Banking</h6>
+
+                                                            </div>
+
+                                                            <div *ngIf="isInternetBanking">
+                                                                <div id="content" style="padding: 20px;">
+                                                                    <p>Vui lòng chọn ngân hàng và bấm nút “Tiếp tục” bên
+                                                                        dưới. Chúng tôi sẽ chuyển bạn đến cổng thanh
+                                                                        toán để hoàn thành giao dịch</p>
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <div class="row justify-content-around">
+                                                                                <div class="col p-2"
+                                                                                    *ngFor="let button of buttons; let i = index"
+                                                                                    style="width: 20%;">
+                                                                                    <button type="button"
+                                                                                        [id]="button.id"
+                                                                                        class="rounded border border-3 d-flex justify-content-center align-items-center position-relative"
+                                                                                        style="width: 130px; height: 70px; overflow: hidden;position: relative;"
+                                                                                        (click)="selectBank(button.id)">
+                                                                                        <span
+                                                                                            class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-success p-2"
+                                                                                            *ngIf="isButtonSelected === button.id">
+                                                                                            <span
+                                                                                                class="visually-hidden">unread
+                                                                                                messages</span>
+                                                                                        </span>
+                                                                                        <img [src]="button.imageUrl"
+                                                                                            alt="logoTechcombank"
+                                                                                            style="width: 100%; height: auto; border-radius: 10px;">
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row text-end">
+                                    <div class="pb-3 pt-3 col-6">
+                                    </div>
+                                    <div class="pb-3 pt-3 col-6">
+                                        <button type="button" class="btn btn-danger px-5 mr-2"
+                                            style="background-color:white;color: #ee5057;" (click)="previouspage()">
+                                            <i class="fa-solid fa-arrow-left"></i>Trở về
+
+                                        </button>
+                                        <button type="button" class="btn btn-danger px-5 "
+                                            style="background-color: #ee5057;" RouterLink="/"
+                                            (click)="nextpage()">Tiếp tục
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="step step-3" [style.display]="currentStep === 3 ? 'block' : 'none'">
+                                <!-- Step 3 form fields here -->
+                                <div class="pt-3">
+                                    <h5>Hoàn tất giao dịch</h5>
+                                    <hr>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-6" style="width: 80%;">
+                                            <div class="card">
+                                                <div class="card-body text-center">
+                                                    <div class="success-animation m-2">
+                                                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 52 52">
+                                                            <circle class="checkmark__circle" cx="26" cy="26" r="25"
+                                                                fill="none" />
+                                                            <path class="checkmark__check" fill="none"
+                                                                d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                                                        </svg>
+                                                    </div>
+                                                    <h2 class="card-title">Chúc mừng!</h2>
+                                                    <p class="card-text">Bạn đã thanh toán thành công.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pt-3 text-end">
+                                        <button type="button" class="btn btn-danger px-5 "
+                                            style="background-color: #ee5057;" [routerLink]="['/']"
+                                            >Trở về trang chủ
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

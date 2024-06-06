@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>{{inputdata.Title}}</h1>
+<div mat-dialog-content>
+    <div class="container px-5 my-5 ">
+        <form id="contactForm" data-sb-form-api-token="API_TOKEN" [formGroup] = "myform"  (ngSubmit)="data.status===1?updateDriver():saveDriver()">
+            <div class="mb-3">
+                <label class="form-label" for="họTen">Họ Tên</label>
+                <input class="form-control" id="họTen" type="text" placeholder="Họ Tên" data-sb-validations="" formControlName="name"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="sốDiệnThoại">Số điện thoại</label>
+                <input class="form-control" id="sốDiệnThoại" type="text" placeholder="Số điện thoại" data-sb-validations="" formControlName="phone_number" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="bằngLai">Bằng lái</label>
+                <input class="form-control" id="bằngLai" type="text" placeholder="Bằng lái" data-sb-validations="" formControlName="driver_license" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="ngayBắtDầu">Ngày bắt đầu</label>
+                <input class="form-control" id="ngayBắtDầu" type="date" placeholder="Ngày bắt đầu" data-sb-validations="" formControlName="date_start"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label d-block">Trạng thái</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" id="optionA" type="checkbox" name="trạngThai" data-sb-validations="" formControlName="status"/>
+                    <label class="form-check-label" for="optionA">Đang làm việc</label>
+                </div>
+            </div>
+            <div class="d-none" id="submitSuccessMessage">
+                <div class="text-center mb-3">
+                    <div class="fw-bolder">Form submission successful!</div>
+                    <p>To activate this form, sign up at</p>
+                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                </div>
+            </div>
+            <div class="d-none" id="submitErrorMessage">
+                <div class="text-center text-danger mb-3">Error sending message!</div>
+            </div>
+            <div mat-dialog-actions>
+                <button *ngIf="data.status === 0" id="addButton" idmat-raised-button color="primary" class="btn btn-primary">Thêm</button>
+                <button *ngIf="data.status === 1" id="editButton" mat-raised-button color="primary">Lưu</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</div>
+

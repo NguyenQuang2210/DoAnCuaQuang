@@ -1,0 +1,65 @@
+<div class="container px-5 my-5">
+    <h2><strong>Thông tin liên hệ</strong></h2>
+    <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="họVaTen" type="text" placeholder="Họ và tên" data-sb-validations="" [(ngModel)]="hoVaTen" name="hoVaTen"/>
+                </div>
+            </div>
+            <div class="col-6">
+            
+            </div>
+        </div>
+       
+        <div class="row">
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="sốDiệnThoại" type="text" placeholder="Số điện thoại" data-sb-validations="required" [(ngModel)]="soDienThoai" name="soDienThoai"/>
+                    <div class="invalid-feedback" data-sb-feedback="sốDiệnThoại:required">Số điện thoại is required.</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="ghiChu" type="text" placeholder="Ghi chú" data-sb-validations="required" [(ngModel)]="ghiChu" name="ghiChu"/>
+                    <div class="invalid-feedback" data-sb-feedback="ghiChu:required">Ghi chú is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="diểmDon" type="text" placeholder="Điểm đón" data-sb-validations="required" [(ngModel)]="diemDon" name="diemDon"/>
+                    <div class="invalid-feedback" data-sb-feedback="diểmDon:required">Điểm đón is required.</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="diểmTrả" type="text" placeholder="Điểm trả" data-sb-validations="required" [(ngModel)]="diemTra" name="diemTra"/>
+                    <div class="invalid-feedback" data-sb-feedback="diểmTrả:required">Điểm trả is required.</div>
+                </div>
+            </div>
+        </div>      
+       
+       
+        <div class="col-md-6">
+            <h4>Thông tin ghế đã chọn:</h4>
+            <ul>
+                <li *ngFor="let seat of listeddetailseat">
+                    Ghế: {{ getNameSeat(seat.id_seat)}} - Giá:{{(380000)|number}} 
+                </li>
+            </ul>
+            <h3>Tổng thanh toán là :
+                <span style="color: green;"> {{ (listeddetailseat.length * 380000)|number}} VND</span>
+            </h3>
+      
+              <div class="d-none" id="submitErrorMessage" [class.d-block]="submitError">
+                <div class="text-center text-danger mb-3">Error sending message!</div>
+              </div>
+        </div>
+        <div class="w-100 d-flex justify-content-end">
+            <button class="btn btn-primary btn-lg px-5" id="submitButton" type="button" (click)="saveTicket()" [disabled]="issummit">Đặt</button>
+          </div>
+    </form>
+</div>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>

@@ -1,0 +1,97 @@
+
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;" *ngIf="loader">
+    <div class="spinner-border text-danger" role="status" >
+        <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+<div style="line-height: 5;">
+    <div class="tm-section tm-bg-img" id="tm-section-1" *ngIf="!loader">
+        <div class="tm-bg-white ie-container-width-fix-2 ">
+            <div class="container ie-h-align-center-fix ">
+                <div class="row">
+                    <div class="col-xs-15 ml-auto mr-auto ie-container-width-fix">
+                        <form action="" method="post" class="tm-search-form tm-section-pad-2" [formGroup]="searchform"
+                            >
+                            <div class="form-row tm-search-form-row col-12">
+                                <div class="form-group tm-form-element tm-form-element-100 col-md-5  d-flex align-items-center">
+                                    <i class="fa fa-map-marker fa-2x pr-1" style="color: #ee5057;"></i>
+                                    <div class="flex-grow-1">
+                                        <select class="form-select" id="chuyen" aria-label="Chuyến" formControlName="id_tour">
+                                            <option value="" selected disabled>Chọn chuyến xe</option>
+                                            <option value="1">Thanh Hóa - Lào Cai</option>
+                                            <option value="2">Thanh Hóa - Sa Pa</option>
+                                            <option value="3">Lào Cai - Thanh Hóa</option>
+                                            <option value="4">Sa Pa - Thanh Hóa</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group tm-form-element tm-form-element-100 col-md-5 d-flex align-items-center">
+                                    <i class="fa fa-calendar fa-2x pr-1" style="color: #ee5057;"></i>
+                                    <div class="flex-grow-1">
+                                        <input class="form-control" id="gioKhoiHanh" type="text" placeholder="Ngày đi" data-sb-validations="required" formControlName="departure_date" onfocus="(this.type='date', this.min=new Date().toISOString().split('T')[0], this.max=new Date(new Date().setDate(new Date().getDate() + 10)).toISOString().split('T')[0])" onblur="formatDate(this)"/>
+                                    </div>
+                                    <div class="invalid-feedback" data-sb-feedback="gioKhoiHanh:required">Mời nhập ngày đi</div>
+                                </div>
+                                
+                                
+                                <div class="form-group tm-form-element tm-form-element-2 col-2 d-flex align-items-center">
+                                    <button type="button" class="btn btn-primary tm-btn-search" (click)="searchFrom()" >Đặt vé</button>
+                                </div>
+                            </div>
+                            
+
+                            <div class="form-row tm-search-form-row">
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tm-section-2">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <h2 class="tm-section-title">Ngại chen chúc - Book ngay Quang Dũng</h2>
+                    <p class="tm-color-white tm-section-subtitle">Miễn phí đón tận nơi,trả tận nhà</p>
+                    <a href="#" class="tm-color-white tm-btn-white-bordered" >ĐẶT VÉ
+                        NGAY</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tm-section tm-position-relative">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"
+            class="tm-section-down-arrow">
+            <polygon fill="#ee5057" points="0,0  100,0  50,60"></polygon>
+        </svg>
+        <div class="container tm-pt-5 tm-pb-4">
+            <div class="row text-center">
+                <article class="col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-article">
+                    <i class="fa tm-fa-6x fa-legal tm-color-primary tm-margin-b-20"></i>
+                    <h3 class="tm-color-primary tm-article-title-1">Dễ dàng đặt vé</h3>
+                    <p>Đặt vé và trải nghiệm các dịch vụ của
+                        Quang Dũng Limousine chỉ với vài thao tác
+                        đơn giản</p>
+                    <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Continue reading...</a>
+                </article>
+                <article class="col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-article">
+                    <i class="fa tm-fa-6x fa-plane tm-color-primary tm-margin-b-20"></i>
+                    <h3 class="tm-color-primary tm-article-title-1">Dịch vụ đa dạng</h3>
+                    <p>Phục vụ mọi nhu cầu di chuyển của bạn,
+                        Thứ gì bất động,xe chúng tôi đểu vận chuyển</p>
+                    <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Continue reading...</a>
+                </article>
+                <article class="col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-article">
+                    <i class="fa tm-fa-6x fa-life-saver tm-color-primary tm-margin-b-20"></i>
+                    <h3 class="tm-color-primary tm-article-title-1">Thuận tiện và nhanh chóng</h3>
+                    <p>Quang Dũng Limousine sẽ đưa bạn đi mọi
+                        nơi mọi lúc bạn muốn với tốc độ và dịch
+                        vụ tốt nhất.
+                        <a href="#" class="text-uppercase tm-color-primary tm-font-semibold">Continue reading...</a>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>
